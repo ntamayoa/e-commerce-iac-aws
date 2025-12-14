@@ -1,0 +1,33 @@
+name: Deploy Catalog Lambda
+
+on:
+  push:
+    paths:
+      - "Backend-repo/lambdas/catalog/**"
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Package Lambda code
+        run: |
+          cd Backend-repo/lambdas/catalog
+          zip -r ../../catalog.zip .
+
+      - name: Update Lambda function code
+        run: |
+          aws lambda update-function-code \
+            --function-name catalog-dev \
+            --zip-file fileb://catalog.zip
