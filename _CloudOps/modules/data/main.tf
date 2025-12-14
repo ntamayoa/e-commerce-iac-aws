@@ -20,8 +20,8 @@ resource "aws_dynamodb_table" "catalog" {
 
 resource "aws_dax_cluster" "catalog" {
   cluster_name           = "catalog-dax-${var.environment}"
-  node_type              = "dax.r6g.large"
-  replication_factor     = 1
+  node_type              = "dax.t3.small"
+  replication_factor     = 2
   iam_role_arn           = aws_iam_role.dax_role.arn
   subnet_group_name      = aws_dax_subnet_group.this.name
 
@@ -55,31 +55,40 @@ resource "aws_iam_role_policy_attachment" "dax_access" {
 resource "aws_rds_subnet_group" "aurora" {
   name       = "aurora-subnets-${var.environment}"
   subnet_ids = var.private_subnets
+
+  tags = {
+    Name = "aurora-subnets-${var.environment}"
+  }
 }
 
 resource "aws_rds_cluster" "aurora" {
-  cluster_identifier      = "aurora-${var.environment}"
-  engine                  = "aurora-mysql"
-  engine_version          = "8.0.mysql_aurora.3.05.11"
-  master_username         = var.db_master_user
-  master_password         = var.db_master_password
-  database_name           = "catalogdb"
-  db_subnet_group_name    = aws_rds_subnet_group.aurora.name
-  skip_final_snapshot     = true
+  cluster_identifier = "aurora-${var.environment}"
+
+  engine         = "aurora-mysql"
+  engine_version = "8.0.mysql_aurora.3.05.11"
+
+  engine_mode = "provisioned"
+
+  master_username = var.db_master_user
+  master_password = var.db_master_password
+  database_name   = "catalogdb"
+
+  db_subnet_group_name   = aws_rds_subnet_group.aurora.name
+  vpc_security_group_ids = [var.backend_sg_id]
+
   backup_retention_period = 7
-  vpc_security_group_ids  = [var.backend_sg_id]
+  skip_final_snapshot     = true
 
+  serverlessv2_scaling_configuration {
+    min_capacity = 0.5   # ACUs
+    max_capacity = 4.0
+  }
+
+  tags = {
+    Name = "aurora-${var.environment}"
+  }
 }
 
-resource "aws_rds_cluster_instance" "aurora_instances" {
-  count              = var.aurora_instance_count
-  identifier         = "aurora-${var.environment}-instance-${count.index}"
-  cluster_identifier = aws_rds_cluster.aurora.id
-  instance_class     = "db.t3.medium"
-  engine             = aws_rds_cluster.aurora.engine
-  engine_version     = aws_rds_cluster.aurora.engine_version
-  publicly_accessible = false
-}
 
 */
 

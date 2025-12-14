@@ -34,7 +34,7 @@ Para la capa de datos se tienen 2 tipos de bases de datos. DynamoDB, no relacion
 
 **Observabilidad**
 
-La observabilidad es transversal a todas las capas y servicios. Para esto se usa el servicio de cloudwatch y todas sus funcionalidades: Logs, metricas, eventos y alarmas. Tambien se tiene la opción de usar x-ray para rastrear las conexciones entre microservicios. 
+La observabilidad es transversal a todas las capas y servicios. Para esto se usa el servicio de cloudwatch y todas sus funcionalidades: Logs, metricas, eventos y alarmas. Tambien se tiene la opción de usar x-ray para rastrear las conexciones entre microservicios aunque no se tiene en cuenta en la IaC
 
 **Alta disponibilidad, rendimiento y gestión**
 

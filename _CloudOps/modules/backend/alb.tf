@@ -3,15 +3,17 @@
 resource "aws_lb" "this" {
   name               = "backend-alb-${var.environment}"
   load_balancer_type = "application"
-  internal           = false
+  internal           = true
 
-  subnets         = var.public_subnets
+  subnets         = var.private_subnets
   security_groups = [aws_security_group.alb.id]
 
   tags = {
+    Name        = "backend-alb-${var.environment}"
     Environment = var.environment
   }
 }
+
 
 resource "aws_lb_target_group" "backend" {
   name     = "backend-tg-${var.environment}"
