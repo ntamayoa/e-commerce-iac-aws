@@ -54,9 +54,9 @@ Como alternativa de caching en aurora esta ElastiCache.
 
 **Pipeline CI/CD**
 
-Para el pipeline CI/CD se plantea el uso de github actions. Cuando un desarrollador realiza un cambio en la aplicación y lo sube al repositorio de producción se despliega un workflow en github actions que actualiza el codigo base de la lambda o del docker correspondiente, este pipeline tambien generaria la task definition, el ecs service y atacha al target group. 
+Para el pipeline CI/CD se plantea el uso de github actions. Cuando un desarrollador realiza un cambio en la aplicación y lo sube al repositorio de producción se despliega un workflow en github actions que actualiza el codigo base de la lambda o del docker correspondiente, este pipeline tambien generaria la task definition, el ecs service y agrega al target group. 
 
-Para el ejercicio se realiza el ejemplo con el codigo de una lambda del backend (lambda-catalog)
+Para el ejercicio se realiza el ejemplo con el codigo de una lambda del backend (lambda-catalog). Cuando se actualiza el codigo en el repo (Backend-repo) se despliega la nueva versión. Evita desplegar toda la infraestructura solo por un cambio de codigo (separación de funciones)
 
 El despliegue de la infraestructura se realiza con github actions con un trigger "manual". Se deja esta opción para mayor control de la infraestructura.
 
