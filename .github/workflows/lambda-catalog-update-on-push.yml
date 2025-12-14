@@ -5,7 +5,6 @@ on:
     paths:
       - "Backend-repo/lambdas/catalog/**"
 
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,7 +23,7 @@ jobs:
       - name: Package Lambda code
         run: |
           cd Backend-repo/lambdas/catalog
-          zip -r ../../catalog.zip .
+          zip -r ../../../catalog.zip .
 
       - name: Update Lambda function code
         run: |

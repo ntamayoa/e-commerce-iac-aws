@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Select environment'
+        description: 'Enviroment'
         required: true
         default: 'dev'
         type: choice
@@ -12,7 +12,7 @@ on:
           - dev
           - prod
       action:
-        description: 'Terraform action to run'
+        description: 'Terraform action'
         required: true
         default: 'plan'
         type: choice
