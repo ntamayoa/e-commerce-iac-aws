@@ -55,6 +55,10 @@ jobs:
         if: ${{ github.event.inputs.action == 'plan' }}
         run: terraform -chdir=$TF_WORKDIR plan -out=tfplan
 
+      - name: Terraform Plan
+        if: ${{ github.event.inputs.action == 'apply' }}
+        run: terraform -chdir=$TF_WORKDIR plan -out=tfplan
+
       - name: Terraform Apply
         if: ${{ github.event.inputs.action == 'apply' }}
         run: terraform -chdir=$TF_WORKDIR apply -auto-approve tfplan

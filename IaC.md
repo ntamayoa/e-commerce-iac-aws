@@ -34,7 +34,7 @@ Despliegue de VPC y subnet publicas y privadas (separa front de back)
 Para mayor modularización se segrega en cdn (incluido dns) y en app.
 
 en cdn se despliega Route53 como DNS y Cloudfront como CDN. ademas de incluir WAF. 
-Para producción se requeria ademas ser dueño del dominio que se usara para el hosted zone. 
+Para producción se requeria ademas ser dueño del dominio que se usara para el hosted zone y asignar los NS.
 
 en app se despliega el bucket de s3 que tendra el hosting estatico, ademas de ECS cluster para el contenido dinamico junto con su ALB. 
 

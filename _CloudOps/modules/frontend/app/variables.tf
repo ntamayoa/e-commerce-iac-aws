@@ -10,7 +10,7 @@ variable "environment" {
   type = string
 }
 
-variable "cloudfront_arn" {
+variable "oai_canonical_user_id" {
   type = string
 }
 

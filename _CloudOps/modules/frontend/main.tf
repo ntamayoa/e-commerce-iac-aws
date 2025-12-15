@@ -14,6 +14,6 @@ module "app" {
   bucket_name     = var.bucket_name
   public_subnets  = var.public_subnets
   environment     = var.environment
-  cloudfront_arn  = module.cdn.cloudfront_arn
+  oai_canonical_user_id  = module.cdn.oai_canonical_user_id
   vpc_id          = var.vpc_id #importante para el alb
 }
