@@ -1,5 +1,5 @@
-# este modulo crea una VPC con subredes publicas y privadas, tablas de rutas y una gateway de internet.
-# se usa la enviroment para taggear todos los recursos
+# este modulo crea una VPC con subredes publicas y privadas, tablas de rutas y un internet gateway.
+# se usa la enviroment para taggear todos los recursos 
 
 #vpc
 resource "aws_vpc" "this" {

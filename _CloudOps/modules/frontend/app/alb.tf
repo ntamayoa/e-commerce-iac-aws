@@ -13,7 +13,7 @@ resource "aws_lb" "this" {
   }
 }
 
-# se prepara el target group para el alb que apuntara a las task del cluster ecs
+# se prepara el target group para el alb que apunte a las task del cluster ecs
 
 resource "aws_lb_target_group" "frontend" {
   name     = "frontend-tg-${var.environment}"
@@ -55,6 +55,7 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  #salida libre
   egress {
     from_port   = 0
     to_port     = 0

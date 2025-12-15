@@ -3,7 +3,7 @@
 resource "aws_lb" "this" {
   name               = "backend-alb-${var.environment}"
   load_balancer_type = "application"
-  internal           = true
+  internal           = true #interno, detras del API Gateway VPC Link
 
   subnets         = var.private_subnets
   security_groups = [aws_security_group.alb.id]

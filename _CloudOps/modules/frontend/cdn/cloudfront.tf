@@ -1,8 +1,11 @@
+# despliegue de cloudfront para el frontend
+
+# Crear una identidad de acceso de origen (OAI) para acceder al bucket S3 de forma segura
 resource "aws_cloudfront_origin_access_identity" "this" {
   comment = "Frontend OAI"
 }
 
-
+# Política de caché para contenido estático
 resource "aws_cloudfront_cache_policy" "static" {
   name = "static-cache-policy-${var.environment}"
 
@@ -27,6 +30,7 @@ resource "aws_cloudfront_cache_policy" "static" {
   }
 }
 
+# Política de caché para contenido dinámico
 resource "aws_cloudfront_cache_policy" "api" {
   name = "api-no-cache-policy-${var.environment}"
 
@@ -51,6 +55,7 @@ resource "aws_cloudfront_cache_policy" "api" {
   }
 }
 
+# Política de solicitud de origen para contenido dinámico
 resource "aws_cloudfront_origin_request_policy" "api" {
   name = "api-origin-request-${var.environment}"
 

@@ -1,4 +1,5 @@
-# modulo de data
+# modulo de data, se deja planteado el uso de dax (caching para dynamodb) y aurora (base relacional)
+
 
 #se crea tabla para ejemplo "catalog" a ser accedida por lambda
 resource "aws_dynamodb_table" "catalog" {
@@ -12,8 +13,44 @@ resource "aws_dynamodb_table" "catalog" {
   }
 }
 
+#permisos para la lambda acceder a la tabla dynamodb (y dax si se usa)
+resource "aws_iam_policy" "lambda_dynamo_policy" {
+  name = "lambda-dynamo-policy-${var.environment}"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:Query",
+          "dynamodb:Scan"
+        ]
+        Resource = [
+          aws_dynamodb_table.catalog.arn
+        ]
+      },
+    /*  {
+        Effect = "Allow"
+        Action = [
+          "dax:DescribeClusters",
+          "dax:Connect"
+        ]
+        Resource = aws_dax_cluster.catalog.arn
+      }*/
+    ]
+  })
+}
 
-#se deja planteado el uso de dax (caching para dynamodb) y aurora (base relacional)
+resource "aws_iam_role_policy_attachment" "lambda_attach_dynamo" {
+  role       = var.lambda_role_name
+  policy_arn = aws_iam_policy.lambda_dynamo_policy.arn
+}
+
+
 
 
 /*
@@ -91,43 +128,6 @@ resource "aws_rds_cluster" "aurora" {
 
 
 */
-
-#permisos para la lambda acceder a la tabla dynamodb (y dax si se usa)
-resource "aws_iam_policy" "lambda_dynamo_policy" {
-  name = "lambda-dynamo-policy-${var.environment}"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = [
-          "dynamodb:GetItem",
-          "dynamodb:PutItem",
-          "dynamodb:UpdateItem",
-          "dynamodb:DeleteItem",
-          "dynamodb:Query",
-          "dynamodb:Scan"
-        ]
-        Resource = [
-          aws_dynamodb_table.catalog.arn
-        ]
-      },
-    /*  {
-        Effect = "Allow"
-        Action = [
-          "dax:DescribeClusters",
-          "dax:Connect"
-        ]
-        Resource = aws_dax_cluster.catalog.arn
-      }*/
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_attach_dynamo" {
-  role       = var.lambda_role_name
-  policy_arn = aws_iam_policy.lambda_dynamo_policy.arn
-}
 
 
 /*

@@ -1,5 +1,5 @@
 
-#ejemplo de lambda para el servicio de catalogo. Codigo "inline"
+#ejemplo de lambda para el servicio de catalogo. Codigo "inline". Solo para despliegue inicial, actualizaciones desde el pipeline
 data "archive_file" "lambda_zip_inline" {
   type        = "zip"
   output_path = "${path.module}/lambda_function.zip"  

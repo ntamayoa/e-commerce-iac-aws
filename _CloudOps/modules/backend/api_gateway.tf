@@ -15,7 +15,7 @@ resource "aws_apigatewayv2_integration" "catalog" {
 }
 resource "aws_apigatewayv2_route" "catalog" {
   api_id    = aws_apigatewayv2_api.this.id
-  route_key = "ANY /catalog/{proxy+}"
+  route_key = "ANY /catalog/{proxy+}" #ruta con proxy para todo lo que venga despues de /catalog/
   target    = "integrations/${aws_apigatewayv2_integration.catalog.id}"
 }
 
@@ -64,7 +64,7 @@ resource "aws_apigatewayv2_authorizer" "cognito" {
 
   jwt_configuration {
     audience = [aws_cognito_user_pool_client.this.id]
-    issuer = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${aws_cognito_user_pool.this.id}"
+    issuer = "https://cognito-idp.${data.aws_region.current.region}.amazonaws.com/${aws_cognito_user_pool.this.id}"
 
   }
 }
