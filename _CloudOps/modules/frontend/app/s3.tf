@@ -20,7 +20,7 @@ resource "aws_s3_bucket_policy" "static" {
     Statement = [{
       Effect = "Allow"
       Principal = {
-        AWS = var.oai_canonical_user_id
+        AWS = var.cloudfront_arn
       }
       Action   = "s3:GetObject"
       Resource = "${aws_s3_bucket.static.arn}/*"
